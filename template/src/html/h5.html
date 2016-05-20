@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>茹妆的秘密花园</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script type="application/javascript">
+        if(localStorage.getItem('scaleMatch')==false&&(navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Linux') > -1)){
+            document.write('<meta name="viewport" content="target-densitydpi=device-dpi, width=640px, user-scalable=no">');
+            isViewPort=true;
+        }else{
+            var scaleFactor=localStorage.getItem("pageScale"),isViewPort=scaleFactor&&scaleFactor<1&&scaleFactor>0.3;
+            if(isViewPort){
+                document.write('<meta name="viewport" id="eqMobileViewport" content="initial-scale='+scaleFactor+',maximum-scale='+scaleFactor+',user-scalable=no" />')
+            }else{
+                localStorage.removeItem("pageScale");
+                scaleFactor=null;
+                document.write('<meta name="viewport" id="eqMobileViewport" content="width=device-width,user-scalable=no" />');
+            }
+        }
+
+    </script>
+    <meta name="format-detection" content="telephone=no">
+    <meta content="no-cache" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="Pragma">
+    <style>
+        *{
+            margin: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+            background-color: #e4efe5;
+        }
+        body{
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .loading{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 99999;
+            background:  url(img/h5_bg.jpg) no-repeat;
+            background-size: cover;
+        }
+        .loading.fade{
+            opacity: 0;
+            transition:1s;
+            -webkit-transition:1s;
+        }
+        #loadPer{
+            position: relative;
+        }
+        .load_inner{
+            position: relative;
+            width: 100%;
+            margin-top: -168px;
+        }
+        .loading-box{
+            background: url(img/loader_bg.png) no-repeat;
+            width: 293px;
+            height: 46px;
+            margin: 0 auto;
+            position: relative;
+            text-align: center;
+            line-height: 53px;;
+            color: white;
+            font-size: 28px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .loading-cover{
+            background: url(img/loader_mask.png) no-repeat;
+            width: 293px;
+            height: 46px;
+            position: absolute;
+            top:0;
+            left:0;
+        }
+        .load_wrapper{
+            position: absolute;
+            width: 100%;
+            top:50%;
+            left:50%;
+            -webkit-transform:translate3d(-50%,0,0);
+            transform:translate3d(-50%,0,0);
+        }
+        .loading-box img{
+            vertical-align: middle;
+            margin-right: 5px;;
+        }
+        .cover-page2{
+            z-index: 888;
+            height: 180px!important;
+        }
+        .loading-logo{
+            background: url(img/logo.png) no-repeat;
+            width: 275px;
+            height: 157px;
+            margin: 0 auto 20px;
+            animation:flipInX 1s infinite;
+            -webkit-animation:flipInX 1s infinite;
+            -webkit-animation:flipInX 3s infinite;
+            -webkit-backface-visibility: visible;
+            backface-visibility: visible;
+        }
+        @-webkit-keyframes flipInX {
+            40% {
+                -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                -webkit-transition-timing-function: ease-in;
+                transition-timing-function: ease-in;
+            }
+
+            60% {
+                -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                opacity: 1;
+            }
+
+            80% {
+                -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+                transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+            }
+
+            100% {
+                -webkit-transform: perspective(400px);
+                transform: perspective(400px);
+            }
+        }
+
+        @keyframes flipInX {
+
+            40% {
+                -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+                -webkit-transition-timing-function: ease-in;
+                transition-timing-function: ease-in;
+            }
+
+            60% {
+                -webkit-transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+                opacity: 1;
+            }
+
+            80% {
+                -webkit-transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+                transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+            }
+
+            100% {
+                -webkit-transform: perspective(400px);
+                transform: perspective(400px);
+            }
+        }
+        .loading-text{
+            text-align: center;
+            margin-top: 15px;;
+        }
+    </style>
+</head>
+<body>
+<div class="loading">
+    <div class="load_wrapper">
+        <div class="load_inner" id="loadInner">
+            <div class="loading-logo"></div>
+            <div class="loading-box">
+                <div class="loading-cover" id="loadMask">
+
+                </div>
+                <span id="loadPer"> 0%</span>
+
+            </div>
+            <div class="loading-text">
+                <img src="img/text_secret.png"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="swiper-container frame" id="pagesContainer">
+    <div class="swiper-wrapper" id="pageSwiper">
+        <div class="swiper-slide page page1">
+            <h1>1</h1>
+        </div>
+        <div class="swiper-slide page page1">
+            <h1>2</h1>
+        </div>
+        <div class="swiper-slide page page1">
+            <h1>3</h1>
+        </div>
+        <div class="swiper-slide page page1">
+            <h1>4</h1>
+        </div>
+    </div>
+</div>
+<div class="modal-page" id="sharePage"></div>
+<div id="alertPop" class="frame">
+    <div class="centerXY ">
+        <div class="text-box full-p">
+
+        </div>
+    </div>
+</div>
+</body>
+<script >
+    /*    window.onerror=function(err){
+     alert(err)
+     }*/
+    if(!isViewPort){
+        resetMeta();
+    }
+    function resetMeta(){
+        document.addEventListener('DOMContentLoaded',function(){
+            var g=window.innerWidth,h=window.innerHeight,k;
+            (g/h)>=320/504?k=h/1008:k=g/640;
+            //alert(window.innerHeight+'-'+window.innerWidth)
+            scaleFactor=k;
+            document.getElementById("eqMobileViewport").setAttribute("content","initial-scale="+k+",maximum-scale="+k+",user-scalable=no")
+            localStorage.setItem("pageScale",k);
+        },false)
+        //alert(k);
+        /*   setTimeout(function(){
+         alert(window.innerHeight+'-'+window.innerWidth)
+         })*/
+    }
+    document.addEventListener("touchmove",function(e){
+        e.preventDefault();
+    })
+    var basePath=location.origin+location.pathname.replace("/html/h5.html",'');
+    var routePath=basePath+"/html/index.html?redirect="
+    var app={
+        router:{
+            collectShareUrl:basePath+"/index/captureshare",
+            uploadArtUrl:basePath+"/uploadArt"
+        },
+        art:{imgData:"",writer:"",recipient:"",wishes:""}
+    }
+
+    var loadedTimes=0;
+    //预加载loading函数
+    function loadFramesFun() {
+        var allFrames =['wx_share.jpg']
+        var loaded = 0;
+        var isloaded=false;
+        var loadedLen=0
+        var $loadPer=document.getElementById("loadPer");
+        var $loadMask=document.getElementById('loadMask');
+        var imgPer = 100/allFrames.length;
+        for (var i = 0, j = allFrames.length; i < j; i++) {
+            var img = new Image;
+            img.onload = update;
+            img.src = basePath+"/img/"+allFrames[i];
+        }
+        function update() {
+            loadedLen++;
+            loaded = Math.min(100, (imgPer + loaded));
+            $loadPer.innerHTML=$loadMask.style.marginLeft=Math.floor(loaded)+"%";
+            console.log(loaded)
+            if(loadedLen==allFrames.length){
+//initStage();
+                $loadPer.innerHTML=$loadMask.style.marginLeft="100%";
+                loadedTimes++;
+                checkLoaded();
+                var link=document.createElement("link");
+                link.href= basePath+"/css/style-promo.css";
+                link.rel = "stylesheet";
+                document.head.appendChild(link);
+                link.onload=function(){
+                    loadedTimes++;
+                    checkLoaded();
+                }
+            }
+        }
+    }
+    //    initStage();
+
+    function checkLoaded() {
+        console.log(loadedTimes)
+        if(loadedTimes==2){
+            $(".loading").addClass("fade")
+            setTimeout(function(){
+                $(".loading").remove();
+            },1000)
+            h5Init();
+        }
+    }
+
+    function loadScript(src,cb){
+        var script=document.createElement("script");
+        script.src= src;
+        script.type = "text/javascript";
+        script.onload=function(){
+            loadedTimes++;
+            if(cb)cb();
+        }
+        document.head.appendChild(script)
+    }
+    window.onload=function(){
+//预加载load图
+        loadFramesFun();
+        var layzBox=document.getElementById("layzBox");
+
+        /* loadScript("http://res.wx.qq.com/open/js/jweixin-1.0.0.js",
+         //                loadScript("js/wx.js",
+         function(){
+         checkLoaded();
+         loadScript("js/lib.js",function(){
+         checkLoaded();
+         loadScript("js/getWXSDK.js",function(){
+         checkLoaded();
+         loadScript("js/main.js?v=1.0",function(){
+         checkLoaded();
+         })
+         })
+         })
+         })*/
+    }
+</script>
+<script src="../js/wx.js"></script>
+<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>-->
+<!-- build:js js/lib.js -->
+
+<script type="text/javascript" src="../js/zepto.min.js"></script>
+<script type="text/javascript" src="../js/zepto.fx.js"></script>
+<script type="text/javascript" src="../js/zepto.data.js"></script>
+<script type="text/javascript" src="../js/fastclick.js"></script>
+<script  type="text/javascript" src="../js/iscroll.js"></script>
+<script  type="text/javascript"  src="../js/hammer.js"></script>
+<script src="../js/swiper-3.2.7.min.js"></script>
+<script src="../js/swiper.animate.min.js"></script>
+<!-- endbuild -->
+<script  type="text/javascript"  src="../js/main.js"></script>
+<script>
+    //    h5Init();
+
+    /*  window.onerror=function(a,b,c){
+     alert(a)
+     alert(b)
+     alert(c)
+     }*/
+</script>
+</html>
